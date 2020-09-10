@@ -1,5 +1,5 @@
 "" Pedro Augusto Santana
-" Vim settings for my personal use,
+" Vim (Neovim) settings for my personal use,
 " programming and note taking.
 
 "" Neovim settings
