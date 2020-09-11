@@ -114,6 +114,4 @@ let g:goyo_width = '80%'
 " Activate Goyo on markdown files
 autocmd FileType markdown nnoremap <silent> <C-G> :Goyo<CR>
 
-" Tagbar
-nmap <F8> :TagbarToggle<CR>
 
