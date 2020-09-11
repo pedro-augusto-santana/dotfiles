@@ -8,7 +8,7 @@ call plug#begin('~/.config/nvim/autoload/plugged/')
 	Plug 'morhetz/gruvbox' " Colorscheme
 	" Plugins
 	Plug 'neoclide/coc.nvim', {'branch': 'release'} " Autocompletion provider
-	Plug 'vim-airline/vim-airline' " Statusline
+	Plug 'itchyny/lightline.vim' " Statusline
 	Plug 'vim-airline/vim-airline-themes' "Statusline themes
 	Plug 'preservim/nerdtree', {'on' : 'NERDTreeToggle'} | " File explorer
 				\ Plug 'Xuyuanp/nerdtree-git-plugin' " File explorer git integration
@@ -32,12 +32,14 @@ call plug#end()
 
 """ Basic settings
 set hidden
+set termguicolors
 set nocursorline
 set encoding=utf-8
 set signcolumn=yes
 set number
 set relativenumber
 set incsearch
+set noshowmode
 set mouse=a
 set background=dark
 set clipboard+=unnamedplus
@@ -60,23 +62,30 @@ colorscheme gruvbox
 
 
 let mapleader="\<Space>"
+nmap <leader>t :tabNext<CR>
 tnoremap <Esc> <C-\><C-n>
-nmap <silent> <leader> :call CocActionAsync("jumpDefinition")<CR>
+
+nmap <silent> <leader>gd :call CocActionAsync("jumpDefinition")<CR>
 nnoremap <silent> K :call CocAction('doHover')<CR>
+nnoremap <silent> <leader>gr <Plug>(coc-references)
 
-" Project rename
-nmap <F2> <Plug>(coc-rename)
-nmap <leader>pr :CocSearch <C-R>=expand("<cword>")<CR><CR>
-
-nnoremap <silent> <leader>n :bn<CR>
-nnoremap <silent> <leader>b :bp<CR>
-
+" Custom keybinds
+nnoremap <silent> <C-a> ggVG
+nnoremap <silent> <C-l> V
 nnoremap <C-s> :write<CR>
 inoremap <S-Tab> <C-d>
 nnoremap <S-Tab> <C-d>
 inoremap <C-Bs> <C-W>
 nnoremap <silent> <C-p> :FZF<CR>
 nnoremap <silent> <C-f> :Ag<CR>
+
+" Project rename
+nmap <F2> <Plug>(coc-rename)
+nmap <leader>pr :CocSearch <C-R>=expand("<cword>")<CR><CR>
+
+" Flip through buffers
+nnoremap <silent> <leader>n :bn<CR>
+nnoremap <silent> <leader>b :bp<CR>
 
 "" Move lines
 nnoremap <silent> <A-Up> :m-2<CR>==
@@ -95,9 +104,8 @@ let g:NERDTreeIgnore = ["^node_modules$[[dir]]"] " Ignore 'node_modules' directo
 """ Open undotree
 nnoremap <silent> <F5> :UndotreeToggle \| :UndotreeFocus<CR>
 
-" Airline
-let g:airline#extensions#tabline#enabled = 1 " enable airline tabline
-let g:airline#extensions#tabline#show_close_button = 0 " remove 'X' at the end of the tabline
+" Lightline configuration
+let g:lightline = {'colorscheme' : 'gruvbox'}
 
 " nerdcommenter
 let g:NERDCommentEmptyLines = 1
@@ -113,5 +121,4 @@ let g:goyo_width = '80%'
 
 " Activate Goyo on markdown files
 autocmd FileType markdown nnoremap <silent> <C-G> :Goyo<CR>
-
 
