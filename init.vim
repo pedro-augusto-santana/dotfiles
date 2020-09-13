@@ -70,6 +70,8 @@ nnoremap <silent> K :call CocAction('doHover')<CR>
 nnoremap <silent> <leader>gr <Plug>(coc-references)
 
 " Custom keybinds
+nnoremap <silent> + <C-a>
+nnoremap <silent> - <C-x>
 nnoremap <silent> <C-a> ggVG
 nnoremap <silent> <C-l> V
 nnoremap <C-s> :write<CR>
@@ -100,12 +102,14 @@ let g:NERDTreeWinSize = 30
 map <silent> <C-b> :NERDTreeToggle<CR>
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 let g:NERDTreeIgnore = ["^node_modules$[[dir]]"] " Ignore 'node_modules' directory
+let g:NERDTreeDirArrowExpandable = ''
+let g:NERDTreeDirArrowCollapsible = ''
 
 """ Open undotree
 nnoremap <silent> <F5> :UndotreeToggle \| :UndotreeFocus<CR>
 
 " Lightline configuration
-let g:lightline = {'colorscheme' : 'gruvbox'}
+let g:lightline = { 'colorscheme' : 'gruvbox' }
 
 " nerdcommenter
 let g:NERDCommentEmptyLines = 1
@@ -121,4 +125,5 @@ let g:goyo_width = '80%'
 
 " Activate Goyo on markdown files
 autocmd FileType markdown nnoremap <silent> <C-G> :Goyo<CR>
+
 
