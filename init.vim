@@ -24,6 +24,7 @@ call plug#end()
 
 "" --- Basic Settings ---
 set title
+set noswapfile
 set autochdir
 set hidden
 set termguicolors
@@ -42,6 +43,7 @@ set ignorecase
 set smartcase
 set signcolumn=yes
 set backspace=indent,eol,start
+
 "" --- Visual ---
 
 set background=dark
@@ -62,8 +64,12 @@ nnoremap <silent> <S-Tab> <<
 inoremap <silent> <S-Tab> <C-d>
 vmap <silent> <S-Tab> <
 
+"" Tab completion
+inoremap <silent> <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+inoremap <silent> <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 nnoremap <C-a> ggVG
 nmap <C-s> :w<CR>
+
 " Move lines
 nnoremap <silent> <A-Up> :m-2<CR>==
 nnoremap <silent> <A-Down> :m+<CR>==
@@ -75,10 +81,11 @@ vnoremap <silent> <A-Down> :m '>+1<CR>gv=gv
 "" --- NERDTree ---
 map <silent> <C-b> :NERDTreeToggle<CR>
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-let g:NERDTreeGitStatusUseNerdFonts = 1
 let g:NERDTreeMinimalUI=1
 let g:NERDTreeDirArrowExpandable = '+'
 let g:NERDTreeDirArrowCollapsible = '-'
+let g:NERDTreeIgnore = ['^node_modules$']
+let g:NERDTreeGitStatusUseNerdFonts = 1
 "" --- FZF ---
 nmap <C-p> :Files<CR>
 nnoremap <C-f> :Ag<CR>
@@ -96,3 +103,5 @@ let g:NERDCommentEmptyLines = 1
 let g:NERDSpaceDelims = 1
 "" --- Emmet ----
 let g:user_emmet_leader_key = ","
+
+
