@@ -78,6 +78,12 @@ inoremap <silent> <A-Down> <Esc>:m+<CR>==gi
 vnoremap <silent> <A-Up> :m '<-2<CR>gv=gv
 vnoremap <silent> <A-Down> :m '>+1<CR>gv=gv
 
+" Better navigation on wrapped lines
+map <silent> <Up> gk
+imap <silent> <Up> <C-o>gk
+map <silent> <Down> gj
+imap <silent> <Down> <C-o>gj
+
 "" --- NERDTree ---
 map <silent> <C-b> :NERDTreeToggle<CR>
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
