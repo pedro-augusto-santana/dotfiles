@@ -102,7 +102,7 @@ let g:coc_start_at_startup = 0
 autocmd BufReadPre,FileReadPre * :CocStart
 
 "" --- UndoTree ---
-nnoremap <F5> :UndotreeToggle \| :UndotreeFocus<CR>
+nnoremap <silent> <F5> :UndotreeToggle \| :UndotreeFocus<CR>
 
 "" --- nerdcommenter ---
 let g:NERDCommentEmptyLines = 1
