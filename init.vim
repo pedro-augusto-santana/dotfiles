@@ -20,17 +20,18 @@ call plug#begin('~/.config/nvim/autoload/plugged/')
     Plug 'junegunn/goyo.vim', {'for':'markdown'} " Distraction free markdown
     Plug 'tpope/vim-fugitive' " Nice git integration
     Plug 'mattn/emmet-vim', {'for':['html','js','jsx']}" Emmet
+    Plug 'ryanoasis/vim-devicons', {'on':'NERDTreeToggle'}
 call plug#end()
 
 "" --- Basic Settings ---
 set title
 set noswapfile
 set autochdir
-set hidden
 set termguicolors
 set number
 set relativenumber
 set incsearch
+set inccommand=split
 set tabstop=4 shiftwidth=4
 set expandtab
 set splitright splitbelow
@@ -63,10 +64,10 @@ nnoremap <silent> - <C-x>
 nnoremap <silent> <S-Tab> <<
 inoremap <silent> <S-Tab> <C-d>
 vmap <silent> <S-Tab> <
+nnoremap <C-h> :%s/
 
 "" Tab completion
 inoremap <silent> <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-inoremap <silent> <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 nnoremap <C-a> ggVG
 nmap <C-s> :w<CR>
 
@@ -79,10 +80,8 @@ vnoremap <silent> <A-Up> :m '<-2<CR>gv=gv
 vnoremap <silent> <A-Down> :m '>+1<CR>gv=gv
 
 " Better navigation on wrapped lines
-map <silent> <Up> gk
-imap <silent> <Up> <C-o>gk
-map <silent> <Down> gj
-imap <silent> <Down> <C-o>gj
+nmap <silent> <Up> gk
+nmap <silent> <Down> gj
 
 "" --- NERDTree ---
 map <silent> <C-b> :NERDTreeToggle<CR>
@@ -92,6 +91,7 @@ let g:NERDTreeDirArrowExpandable = '+'
 let g:NERDTreeDirArrowCollapsible = '-'
 let g:NERDTreeIgnore = ['^node_modules$']
 let g:NERDTreeGitStatusUseNerdFonts = 1
+
 "" --- FZF ---
 nmap <C-p> :Files<CR>
 nnoremap <C-f> :Ag<CR>
@@ -107,6 +107,7 @@ nnoremap <silent> <F5> :UndotreeToggle \| :UndotreeFocus<CR>
 "" --- nerdcommenter ---
 let g:NERDCommentEmptyLines = 1
 let g:NERDSpaceDelims = 1
+
 "" --- Emmet ----
 let g:user_emmet_leader_key = ","
 
