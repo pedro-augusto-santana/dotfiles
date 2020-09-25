@@ -50,11 +50,14 @@ set backspace=indent,eol,start
 set background=dark
 let g:gruvbox_contrast_dark = 'hard'
 let g:gruvbox_invert_selection = '0'
-colorscheme gruvbox
+colorscheme onedark
 
 
 "" --- Lightline ---
-let g:lightline = { 'colorscheme':'gruvbox' }
+let g:lightline = { 'colorscheme':'gruvbox', 
+\'separator': { 'left': "\ue0b0", 'right': "\ue0b2" , 
+\'subseparator': { 'left': "\ue0b1", 'right': "\ue0b3" }
+\}}
 
 
 "" --- Keyboard shortcuts ---
