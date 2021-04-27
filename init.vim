@@ -1,117 +1,135 @@
-""" Neovim configuration file
-""" Author: Pedro Augusto Santana 
-""" Version: 2
+" =============================
+" NEOVIM CONFIGURATION FILE
+"           2021
+" =============================
 
-call plug#begin('~/.config/nvim/autoload/plugged/')
-	Plug 'morhetz/gruvbox' " Colorscheme
-    Plug 'itchyny/lightline.vim' " Statusline
-    Plug 'junegunn/fzf'
-    Plug 'junegunn/fzf.vim', {'on':['Files','Ag','FZF']} " File searching
-    Plug 'sheerun/vim-polyglot' " Syntax definitions
-    Plug 'neoclide/coc.nvim', {'branch': 'release'} " Intellisense and autocompletion
-    Plug 'mhinz/vim-signify' " Git integration
-    Plug 'jiangmiao/auto-pairs' " Autoclosing
-    Plug 'mg979/vim-visual-multi', {'branch': 'master'} " Multiple cursors
-    Plug 'alvan/vim-closetag',{'for':['html','xml','htm','xhtml','.js','.jsx']} " Html autoclosing
-    Plug 'mbbill/undotree' " Undo visualization
-    Plug 'preservim/nerdtree',{'on':'NERDTreeToggle'}
-    Plug 'Xuyuanp/nerdtree-git-plugin', {'for':'nerdtree'} " Git integration
-    Plug 'preservim/nerdcommenter' " Autocomment lines
-    Plug 'junegunn/goyo.vim', {'for':'markdown'} " Distraction free markdown
-    Plug 'tpope/vim-fugitive' " Nice git integration
-    Plug 'mattn/emmet-vim', {'for':['html','js','jsx']}" Emmet
-    Plug 'ryanoasis/vim-devicons', {'on':'NERDTreeToggle'}
+set number " show line numbers
+set hidden " enable hidden buffers
+set termguicolors " true colors for terminal
+set clipboard+=unnamedplus " use system clipboard
+set autochdir " change cwd more easily
+set noswapfile " disable swap files
+set autoindent " indentation
+set cindent " ''
+set smartindent " ''
+set inccommand=split " make split in search/sub
+set cursorline " highlight current cursor line
+set incsearch " incremental search
+set tabstop=4 " set tabs as 4 spaces
+set shiftwidth=4 " same thing for different commands
+set scrolloff=2 " vertical scroll padding of 2 lines
+set ignorecase " ignore case...
+set smartcase " except if there is a uppercase character on string
+set signcolumn=number " gutter is the same as number column on the right
+set noshowmode " disable -- INSERT --  in the command line
+set background=dark " REQUIRED
+set mouse=a " use mouse
+set updatetime=300 " reduce update time for cursor hold operations
+set splitright splitbelow " splits open on the right and on the bottom
+set shortmess+=c " show short/no messages to command line
+set backspace=indent,eol,start " some backspace shit I don't remember
+set whichwrap+=<,>,h,l,[,] " make cursor navigation wrap lines
+set pumheight=12 " autocomplete menu max lin number == 12
+set linebreak " word wrap
+
+command Conf :e ~/.config/nvim/init.vim
+
+" PLUGINS
+call plug#begin('~/.config/nvim/plugged/')
+Plug 'preservim/nerdtree' " file explrer
+Plug 'neoclide/coc.nvim', { 'branch' : 'release' } " basically vscode
+Plug 'itchyny/lightline.vim' " statusline
+Plug 'sainnhe/gruvbox-material' " theme *chefs kiss*
+Plug 'sheerun/vim-polyglot' " better + more syntax definitions
+Plug 'preservim/nerdcommenter' " comments
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } " fuzzy finder + a lot of things
+Plug 'junegunn/fzf.vim' " makes fzf work better
+Plug 'romainl/vim-cool' " utility for search
+Plug 'mg979/vim-visual-multi' " sublime-like multiple cursors
+Plug 'APZelos/blamer.nvim' " codelens for git
+"Plug 'liuchengxu/vista.vim' " outliner
+Plug 'lambdalisue/gina.vim'
 call plug#end()
 
-"" --- Basic Settings ---
-set title
-set noswapfile
-set autochdir
-set termguicolors
-set number
-set relativenumber
-set incsearch
-set inccommand=split
-set tabstop=4 shiftwidth=4
-set expandtab
-set splitright splitbelow
-set linebreak
-set mouse+=a
-set clipboard+=unnamedplus
-set noshowmode
-set scrolloff=3
-set ignorecase
-set smartcase
-set signcolumn=yes
-set backspace=indent,eol,start
 
-"" --- Visual ---
+" APPEARANCE
+let g:gruvbox_material_background='hard'
+let g:gruvbox_constrast_dark='hard'
+let g:gruvbox_invert_selection=0
+let g:gruvbox_material_pallete='mixed'
+colorscheme gruvbox-material
 
-set background=dark
-let g:gruvbox_contrast_dark = 'hard'
-let g:gruvbox_invert_selection = '0'
-colorscheme onedark
+" FILETYPE SYNTAX
+autocmd FileType html,typescript,javascript,javascriptreact,typescriptreact setlocal shiftwidth=2 tabstop=2 " set indentation to two spaces
 
+" NERDTREE
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists('s:std_in') |
+            \ execute 'NERDTree' argv()[0] | wincmd p | enew | execute 'cd '.argv()[0] | endif " replace netrw in directory arguments
 
-"" --- Lightline ---
-let g:lightline = { 'colorscheme':'gruvbox', 
-\'separator': { 'left': "\ue0b0", 'right': "\ue0b2" , 
-\'subseparator': { 'left': "\ue0b1", 'right': "\ue0b3" }
-\}}
+autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() |
+            \ quit | endif " quit if the only window left is the file explorer
 
+autocmd BufEnter * if bufname('#') =~ 'NERD_tree_\d\+' && bufname('%') !~ 'NERD_tree_\d\+' && winnr('$') > 1 |
+            \ let buf=bufnr() | buffer# | execute "normal! \<C-W>w" | execute 'buffer'.buf | endif " prevent nerdtree buffer being replaced
 
-"" --- Keyboard shortcuts ---
-let mapleader = " "
-nnoremap <silent> + <C-a>
-nnoremap <silent> - <C-x>
-nnoremap <silent> <S-Tab> <<
-inoremap <silent> <S-Tab> <C-d>
-vmap <silent> <S-Tab> <
-nnoremap <C-h> :%s/
+nnoremap <silent><C-b> :NERDTreeToggle<CR>
 
-"" Tab completion
-inoremap <silent> <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-nnoremap <C-a> ggVG
-nmap <C-s> :w<CR>
-
-" Move lines
-nnoremap <silent> <A-Up> :m-2<CR>==
-nnoremap <silent> <A-Down> :m+<CR>==
-inoremap <silent> <A-Up> <Esc>:m-2<CR>==gi
-inoremap <silent> <A-Down> <Esc>:m+<CR>==gi
-vnoremap <silent> <A-Up> :m '<-2<CR>gv=gv
-vnoremap <silent> <A-Down> :m '>+1<CR>gv=gv
-
-" Better navigation on wrapped lines
-nmap <silent> <Up> gk
-nmap <silent> <Down> gj
-
-"" --- NERDTree ---
-map <silent> <C-b> :NERDTreeToggle<CR>
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 let g:NERDTreeMinimalUI=1
 let g:NERDTreeDirArrowExpandable = '+'
-let g:NERDTreeDirArrowCollapsible = '-'
+let g:NERDTreeDirArrowCollapsible = '~'
 let g:NERDTreeIgnore = ['^node_modules$']
-let g:NERDTreeGitStatusUseNerdFonts = 1
+let g:NERDTreeWinPos = "right" " show on right side
 
-"" --- FZF ---
-nmap <C-p> :Files<CR>
-nnoremap <C-f> :Ag<CR>
+" COC
+" prompt autocomplete
+inoremap <silent><expr> <c-space> coc#refresh()
+nmap <silent><F2> <Plug>(coc-definition)
+nmap <silent><F3> <Plug>(coc-references)
+vnoremap <silent><leader>a <Plug>(coc-codeaction-selected)
+nnoremap <silent><leader>a <Plug>(coc-codeaction-selected)
+
+" show matches
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+nmap <silent><F12> <Plug>(coc-rename)
+command! -nargs=0 Format :call CocAction('format')
+nnoremap <silent><nowait> <space>dg  :<C-u>CocList diagnostics<cr>
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+autocmd VimLeave * if get(g:, 'coc_process_pid', 0) | call system('kill -9 -'.g:coc_process_pid) | endif
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+    if (index(['vim','help'], &filetype) >= 0)
+        execute 'h '.expand('<cword>')
+    elseif (coc#rpc#ready())
+        call CocActionAsync('doHover')
+    else
+        execute '!' . &keywordprg . " " . expand('<cword>')
+    endif
+endfunction
+
+" LIGHTLINE
+set showtabline=2
+let g:lightline = { 'colorscheme': 'gruvbox_material' }
+
+" KEYBINDINGS
+let mapleader=" "
+" move lines arround using alt arrows
+nnoremap <silent> <A-Up> :m-2<CR>==
+nnoremap <silent> <A-Down> :m+<CR>==
+vnoremap <silent> <A-Up> :m '<-2<CR>gv=gv
+vnoremap <silent> <A-Down> :m '>+1<CR>gv=gv
+" select all - both are necessary
+nnoremap <C-a> ggVG
+vnoremap <C-a> ggVG
+" shift tab unindent in insert mode
+inoremap <S-Tab> <C-D>
+
+" FZF / AG
+let $FZF_DEFAULT_OPTS="--ansi --preview-window 'right:60%' --layout reverse --margin=1,4 --preview 'bat --color=always --style=header,grid --line-range :300 {}'"
+" CTRL P search files
+nnoremap <silent> <c-p> :Files<cr>
+" CTRL F search text
+nnoremap <silent> <c-f> :Ag<cr>
 tnoremap <expr> <Esc> (&filetype == "fzf") ? "<Esc>" : "<c-\><c-n>"
-
-"" --- Coc ---
-let g:coc_start_at_startup = 0
-autocmd BufReadPre,FileReadPre * :CocStart
-
-"" --- UndoTree ---
-nnoremap <silent> <F5> :UndotreeToggle \| :UndotreeFocus<CR>
-
-"" --- nerdcommenter ---
-let g:NERDCommentEmptyLines = 1
-let g:NERDSpaceDelims = 1
-
-"" --- Emmet ----
-let g:user_emmet_leader_key = ","
-
-
