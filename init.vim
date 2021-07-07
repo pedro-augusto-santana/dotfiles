@@ -2,23 +2,29 @@
 " 2021
 
 call plug#begin('~/.config/nvim/plugged/')
-	Plug 'neoclide/coc.nvim', {'branch':'release'} " LSP
-	Plug 'vimwiki/vimwiki' " magic
-	Plug 'itchyny/lightline.vim' " statusline
-	Plug 'itchyny/calendar.vim', {'on':'Calendar'} " vim calendar
-	Plug 'mbbill/undotree', {'on':'UndotreeToggle'} " save undo history
-	Plug 'junegunn/goyo.vim', {'for':['markdown','vimwiki'], 'on':'Goyo'} " better markdown writing
-	Plug 'sheerun/vim-polyglot' " better + more syntax definitions
-	Plug 'preservim/nerdcommenter' " comments
-	Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } " fuzzy finder + a lot of things
-	Plug 'junegunn/fzf.vim' " makes fzf work better
-	Plug 'romainl/vim-cool' " utility for search
-	Plug 'mg979/vim-visual-multi' " sublime-like multiple cursors
-	Plug 'tpope/vim-fugitive' " git integration
-	Plug 'preservim/nerdtree', {'on':'NERDTreeToggle'} " file explorer
-	Plug 'sainnhe/gruvbox-material' " theme
-	Plug 'lervag/vimtex', {'for':'tex'}
-	Plug 'ryanoasis/vim-devicons' " nice icons
+Plug 'sheerun/vim-polyglot' " better + more syntax definitions
+Plug 'preservim/nerdtree', {'on':'NERDTreeToggle'} " file explorer
+
+Plug 'sainnhe/gruvbox-material' " theme
+Plug 'neoclide/coc.nvim', {'branch':'release'} " LSP
+
+Plug 'vimwiki/vimwiki' " kinda org-mode
+Plug 'itchyny/lightline.vim' " statusline
+
+Plug 'mbbill/undotree', {'on':'UndotreeToggle'} " save undo history
+Plug 'junegunn/goyo.vim', {'for':['markdown','vimwiki'], 'on':'Goyo'} " better markdown writing
+
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } " fuzzy finder + a lot of things
+Plug 'junegunn/fzf.vim' " makes fzf work better
+
+Plug 'romainl/vim-cool' " utility for search
+Plug 'preservim/nerdcommenter' " comments
+Plug 'mg979/vim-visual-multi' " sublime-like multiple cursors
+
+Plug 'tpope/vim-fugitive' " git integration
+
+Plug 'lervag/vimtex', {'for':'tex'} " latex processing
+Plug 'ryanoasis/vim-devicons' " nice icons
 call plug#end()
 
 " DEFAULT OPTIONS
@@ -53,13 +59,11 @@ set pumheight=12 " autocomplete menu max lin number == 12
 set linebreak " word wrap
 "set backup " backup
 "set backupdir=~/.config/nvim/backup " backup
-set conceallevel=1
+"set conceallevel=1
 set nobackup
 set nofoldenable " disable folding, i hate it
 
 command Conf :e ~/.config/nvim/init.vim
-
-set guifont=JetBrainsMono\ Nerd\ Font:h16
 
 " THEMES
 let g:gruvbox_material_background='hard'
@@ -70,7 +74,23 @@ colorscheme gruvbox-material
 
 "LIGHTLINE
 set showtabline=2
-let g:lightline = {'colorscheme':'gruvbox_material', 'tab_component_function': { 'tabnum': 'LightlineWebDevIcons' }}
+"let g:lightline = {'colorscheme':'gruvbox_material', 'tab_component_function': { 'tabnum': 'LightlineWebDevIcons' }}
+let g:lightline = {
+			\ 'colorscheme': 'gruvbox_material',
+			\ 'active': {
+				\   'left': [ [ 'mode', 'paste' ],
+				\             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+				\ },
+				\ 'component_function': {
+					\   'gitbranch': 'FugitiveHead'
+					\ },
+					\ 'tab_component_function': { 'tabnum': 'LightlineWebDevIcons'}
+					\ }
+let g:lightline.tabline = {
+			\ 'left': [ [ 'vim_logo', 'tabs' ] ],
+			\ 'right': [ [ 'gitbranch' ],
+			\ [ 'gitstatus' ] ]
+			\ }
 
 function! LightlineWebDevIcons(n)
 	let l:bufnr = tabpagebuflist(a:n)[tabpagewinnr(a:n) - 1]
@@ -102,7 +122,7 @@ noremap <expr> <Down> v:count==0 ? 'g<Down>' : '<Down>'
 
 
 " UNDOTREE
-nnoremap <F6> :UndotreeToggle<CR>
+nnoremap <silent><F6> :UndotreeToggle<CR>
 
 " NERDTREE
 autocmd StdinReadPre * let s:std_in=1
@@ -117,14 +137,16 @@ autocmd BufEnter * if bufname('#') =~ 'NERD_tree_\d\+' && bufname('%') !~ 'NERD_
 
 nnoremap <silent><C-b> :NERDTreeToggle<CR>
 nnoremap <silent><leader>F :NERDTreeFind<CR>
+
 let g:NERDTreeMinimalUI=1
-let g:NERDTreeDirArrowExpandable = ''
-let g:NERDTreeDirArrowCollapsible = ''
+let g:NERDTreeDirArrowExpandable = '+'
+let g:NERDTreeDirArrowCollapsible = '~'
 let g:NERDTreeIgnore = ['^node_modules$', '^.git$', '^__pycache__$']
 "let g:NERDTreeWinPos = 'right' " show on right side
 let g:NERDTreeRemoveFileCmd="gio trash "
 let g:NERDTreeRemoveDirCmd="gio trash "
 let g:NERDTreeMouseMode=2
+
 
 " NERDCOMMENTER
 let g:NERDCommentEmptyLines = 1
@@ -155,8 +177,6 @@ let g:DevIconsEnableFoldersOpenClose = 1
 autocmd FileType markdown,vimwiki nnoremap <buffer> <silent><leader>go :Goyo<CR>
 let g:goyo_width = 175
 let g:goyo_height = '95%'
-"autocmd! User GoyoEnter Limelight
-"autocmd! User GoyoLeave Limelight!
 
 " VIMWIKI
 let g:vimwiki_list = [{'path': '~/Notes/', 'syntax':'markdown','ext':'.md','diary_rel_path':'journal/'}]
@@ -196,4 +216,7 @@ endfunction
 
 " VIMTEX
 let g:Tex_DefaultTargetFormat='pdf'
-let g:vimtex_view_general_viewer = 'zathura'
+let g:vimtex_view_general_viewer = 'evince'
+let g:vimtex_compiler_engine = 'xelatex'
+let g:tex_flavor='latex'
+let g:Tex_CompileRule_pdf='xelatex'
