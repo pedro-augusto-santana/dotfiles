@@ -82,19 +82,27 @@ let g:lightline = {
 				\             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
 				\ },
 				\ 'component_function': {
-					\   'gitbranch': 'FugitiveHead'
+					\   'gitbranch': 'GitBranch'
 					\ },
 					\ 'tab_component_function': { 'tabnum': 'LightlineWebDevIcons'}
 					\ }
+
 let g:lightline.tabline = {
-			\ 'left': [ [ 'vim_logo', 'tabs' ] ],
-			\ 'right': [ [ 'gitbranch' ],
-			\ [ 'gitstatus' ] ]
-			\ }
+			\ 'left': [ [ 'tabs' ] ],
+			\ 'right': [] }
 
 function! LightlineWebDevIcons(n)
 	let l:bufnr = tabpagebuflist(a:n)[tabpagewinnr(a:n) - 1]
 	return WebDevIconsGetFileTypeSymbol(bufname(l:bufnr))
+endfunction
+
+function! GitBranch()
+  if winwidth('.') > 75
+    let bmark = ''
+    let branch = fugitive#head()
+    return strlen(branch) ? branch . ' ' . bmark : ''
+  endif
+  return ''
 endfunction
 
 " KEYBINDINGS
@@ -124,7 +132,7 @@ noremap <expr> <Down> v:count==0 ? 'g<Down>' : '<Down>'
 " UNDOTREE
 nnoremap <silent><F6> :UndotreeToggle<CR>
 
-" NERDTREE
+" NERDTREE -- TODO FIND AN ALTERNATIVE TO THIS (TOO SLOW)
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists('s:std_in') |
 			\ execute 'NERDTree' argv()[0] | wincmd p | enew | execute 'cd '.argv()[0] | endif " replace netrw in directory arguments
@@ -183,7 +191,6 @@ let g:vimwiki_list = [{'path': '~/Notes/', 'syntax':'markdown','ext':'.md','diar
 let g:vimwiki_global_ext = 0
 let g:vimwiki_ext2syntax = {".md":"markdown", ".markdown":"markdown",".mdown":"markdown"}
 let g:vimwiki_markdown_link_ext = 1
-
 
 au FileType vimwiki set syntax=markdown
 
