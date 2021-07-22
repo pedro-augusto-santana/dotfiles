@@ -4,8 +4,8 @@
 call plug#begin('~/.config/nvim/plugged/')
 Plug 'sheerun/vim-polyglot' " better + more syntax definitions
 Plug 'preservim/nerdtree', {'on':'NERDTreeToggle'} " file explorer
-
 Plug 'sainnhe/gruvbox-material' " theme
+
 Plug 'neoclide/coc.nvim', {'branch':'release'} " LSP
 
 Plug 'vimwiki/vimwiki' " kinda org-mode
@@ -98,9 +98,9 @@ endfunction
 
 function! GitBranch()
   if winwidth('.') > 75
-    let bmark = ''
+	  let bmark = ''
     let branch = fugitive#head()
-    return strlen(branch) ? branch . ' ' . bmark : ''
+    return strlen(branch) ? bmark . ' ' . branch : ''
   endif
   return ''
 endfunction
