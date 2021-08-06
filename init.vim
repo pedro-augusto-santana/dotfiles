@@ -98,7 +98,8 @@ endfunction
 
 function! GitBranch()
   if winwidth('.') > 75
-	  let bmark = ''
+	  "let bmark = ''
+	  let bmark = ''
     let branch = fugitive#head()
     return strlen(branch) ? bmark . ' ' . branch : ''
   endif
@@ -127,7 +128,6 @@ inoremap <S-Tab> <C-D>
 " better navigation trough wrapped lines (FUCKING GOLD)
 noremap <expr> <Up> v:count==0 ? 'g<Up>' : '<Up>'
 noremap <expr> <Down> v:count==0 ? 'g<Down>' : '<Down>'
-
 
 " UNDOTREE
 nnoremap <silent><F6> :UndotreeToggle<CR>
