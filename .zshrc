@@ -4,26 +4,33 @@
 autoload -Uz compinit && compinit
 autoload -U promptinit && promptinit
 autoload -U colors && colors # Enable colors in prompt
-autoload -Uz vcs_info
+autoload -Uz add-zsh-hook vcs_info
 
+add-zsh-hook precmd vcs_info
+
+## GIT SECTION
 zstyle ':vcs_info:*' enable git svn
-zstyle ':vcs_info:git*' formats " on %F{green} %b%f"
-eval "$(dircolors -b)"
+zstyle ':vcs_info:*' check-for-changes true
+zstyle ':vcs_info:*' unstagedstr ' (*)'
+zstyle ':vcs_info:*' stagedstr ' (+)'
+zstyle ':vcs_info:git*' formats ' on %B%F{green}%b %%b%u%c%f'
 
-precmd() { vcs_info }
+eval "$(dircolors -b)"
 
 del-word() {
     local WORDCHARS=${WORDCHARS/\//}
     zle backward-delete-word
 }
+zmodload -i zsh/complist
 
 zle -N del-word
 bindkey '^W' del-word
 
 compinit
-zstyle ':completion:*' menu select # menu selection for shell (like zsh)
+zstyle ':completion:*' menu yes select # menu selection for shell (like zsh)
 zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' # case insensitive cd
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+zstyle '*' single-ignored show
 
 ## CUSTOM ALIASES
 export VISUAL=micro
@@ -50,6 +57,13 @@ alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'
 
+alias md=mkdir
+
+# useful dots
+alias -g ...='../..'
+alias -g ....='../../..'
+alias -g .....='../../../..'
+
 ## OPTIONS
 HISTFILE="$HOME/.zsh_history"
 HISTSIZE=20000
@@ -57,6 +71,19 @@ SAVEHIST=20000
 setopt INC_APPEND_HISTORY
 setopt HIST_SAVE_NO_DUPS
 setopt AUTO_CD
+setopt MENU_COMPLETE
+
+## COMMAND NOT FOUND
+if [[ -x /usr/lib/command-not-found ]] ; then
+	if (( ! ${+functions[command_not_found_handler]} )) ; then
+		function command_not_found_handler {
+			[[ -x /usr/lib/command-not-found ]] || return 1
+			/usr/lib/command-not-found --no-failure-msg -- ${1+"$1"} && :
+		}
+	fi
+fi
+
+
 
 ### Added by Zinit's installer
 if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
@@ -86,6 +113,11 @@ zinit light zsh-users/zsh-completions
 
 bindkey "^[OA" history-substring-search-up
 bindkey "^[OB" history-substring-search-down
+bindkey '^[[1;5D' backward-word
+bindkey '^[[1;5C' forward-word
+bindkey -M menuselect '^M' .accept-line
+
+bindkey '^[[Z' reverse-menu-complete
 
 HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND=""
 HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND=""
@@ -94,7 +126,11 @@ HISTORY_SUBSTRING_SEARCH_PREFIXED="true"
 
 ## PROMPT
 setopt PROMPT_SUBST
-PROMPT="%F{cyan}$%f "
-PROMPT+='%B%F{blue}%2~%f%b${vcs_info_msg_0_} %% '
+## old prompt
+# PROMPT="%F{cyan}$%f "
+ #PROMPT+='%B%F{blue}%2~%f%b'
+ #PROMPT+='${vcs_info_msg_0_} %% '
 
-## SETUP LS COLORS
+PROMPT='%B%F{blue}%n@ %2~%f%b'
+PROMPT+='${vcs_info_msg_0_} '
+PROMPT+="%F{cyan}%%%f "
