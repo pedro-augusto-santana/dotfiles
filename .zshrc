@@ -69,7 +69,12 @@ HISTFILE="$HOME/.zsh_history"
 HISTSIZE=20000
 SAVEHIST=20000
 setopt INC_APPEND_HISTORY
+setopt HIST_EXPIRE_DUPS_FIRST
+setopt HIST_IGNORE_DUPS
+setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_SAVE_NO_DUPS
+setopt HIST_IGNORE_SPACE # ignore commands that start with space
+setopt HIST_NO_STORE
 setopt AUTO_CD
 setopt MENU_COMPLETE
 
