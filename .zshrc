@@ -13,7 +13,8 @@ zstyle ':vcs_info:*' enable git svn
 zstyle ':vcs_info:*' check-for-changes true
 zstyle ':vcs_info:*' unstagedstr ' (*)'
 zstyle ':vcs_info:*' stagedstr ' (+)'
-zstyle ':vcs_info:git*' formats ' on %B%F{green}%b %%b%u%c%f'
+# zstyle ':vcs_info:*' formats ' on %B%F{green}%b %%b%u%c%f'
+zstyle ':vcs_info:*' formats ' on %F{green}%b %u%c%f'
 
 eval "$(dircolors -b)"
 
@@ -28,7 +29,7 @@ bindkey '^W' del-word
 
 compinit
 zstyle ':completion:*' menu yes select # menu selection for shell (like zsh)
-zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' # case insensitive cd
+# zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' # case insensitive cd
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 zstyle '*' single-ignored show
 
@@ -37,10 +38,18 @@ export VISUAL=micro
 export EDITOR="$VISUAL"
 export PATH="$PATH:/home/pedro/.local/texlive/2021/bin/x86_64-linux"
 export PATH="$PATH:$HOME/.cargo/env"
+export PATH="$PATH:/usr/local/go/bin"
+export GO111MODULE=on
+export PATH="$PATH:$HOME/.config/composer/vendor/bin/"
+export DOTNET_ROOT="$HOME/Libs/dotnet/"
+export PATH="$PATH:/home/pedro/Libs/dotnet/"
+export PATH="$PATH:/home/pedro/.local/bin/"
+
 alias vim="nvim"
 alias v="vim"
 alias del="gio trash"
 alias zshconfig="vim ~/.zshrc"
+alias convert="magick convert"
 
 ## BASE ALIASES
 alias ls='ls --color=auto'
@@ -56,6 +65,7 @@ alias grep='grep --color'
 alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'
+alias g='git'
 
 alias md=mkdir
 
@@ -138,4 +148,4 @@ setopt PROMPT_SUBST
 
 PROMPT='%B%F{blue}%n@ %2~%f%b'
 PROMPT+='${vcs_info_msg_0_} '
-PROMPT+="%F{cyan}%%%f "
+PROMPT+="%F{cyan}%f%% "
