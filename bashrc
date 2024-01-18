@@ -106,6 +106,10 @@ if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
+if ! type __git_ps1 &> /dev/null && [ -e /usr/share/git-core/contrib/completion/git-prompt.sh ]; then
+        . /usr/share/git-core/contrib/completion/git-prompt.sh
+fi
+
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
@@ -135,17 +139,16 @@ alias lS='ls -1FSsh'
 
 export CHROME_EXECUTABLE="/usr/bin/brave-browser"
 export PATH="$PATH:/home/pedro/.local/bin/"
+export PATH="$PATH:/home/pedro/.bin/"
 
 # programming utils
-export PATH="$PATH:/home/pedro/dev/devtools/flutter/bin/"
-export PATH="$PATH:/home/pedro/dev/devtools/dotnet/"
-export PATH="$PATH:/home/pedro/.local/texlive/bin/x86_64-linux"
-export ANDROID_HOME="/home/pedro/dev/devtools/android"
+export PATH="$PATH:/home/pedro/Apps/devtools/flutter/bin/"
+export PATH="$PATH:/home/pedro/.local/texlive/2023/bin/x86_64-linux"
+export ANDROID_HOME="/home/pedro/Apps/devtools/android"
 export PATH="$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$ANDROID_HOME/lastest/bin"
 
-export PATH="$PATH:/home/pedro/Apps/bin/"
 export QT_QPA_PLATFORMTHEME=qt5ct
-export VISUAL=micro
+export VISUAL=nvim
 export EDITOR=VISUAL
 
 alias rm='rm -i'
@@ -185,6 +188,11 @@ parse_git_branch() {
         echo "" # no vcs information is needed
     fi
 }
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
 # prompt configuration
 export PROMPT_DIRTRIM=2
 export PS1="\$(parse_git_branch)\[$(tput sgr0)\]\u@ \[\e[32m\]\w\[\e[m\] % "
