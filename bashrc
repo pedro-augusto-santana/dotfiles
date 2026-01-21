@@ -120,7 +120,6 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
-. "$HOME/.cargo/env"
 
 #### custom section
 # aliases
@@ -130,26 +129,23 @@ alias del="gio trash"
 alias bashconfig="v ~/.bashrc"
 alias ls='ls --color=auto'
 alias l='ls -lFh'
-alias bat='batcat'
 alias la='ls -lAFh'
 alias lr='ls -tRFh'
 alias lt='ls -ltFh'
 alias ll='ls -lh'
 alias lS='ls -1FSsh'
 
-export CHROME_EXECUTABLE="/usr/bin/brave-browser"
 export PATH="$PATH:/home/pedro/.local/bin/"
 export PATH="$PATH:/home/pedro/.bin/"
-
-# programming utils
-export PATH="$PATH:/home/pedro/Apps/devtools/flutter/bin/"
-export PATH="$PATH:/home/pedro/.local/texlive/2023/bin/x86_64-linux"
-export ANDROID_HOME="/home/pedro/Apps/devtools/android"
-export PATH="$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$ANDROID_HOME/lastest/bin"
 
 export QT_QPA_PLATFORMTHEME=qt5ct
 export VISUAL=nvim
 export EDITOR=VISUAL
+
+export ANDROID_HOME="/home/pedro/opt/android-sdk/"
+export PATH="$PATH:$ANDROID_HOME/cmdline-tools/latest/bin/"
+export PATH="$PATH:/home/pedro/opt/flutter/bin"
+export CHROME_EXECUTABLE="/usr/bin/chromium"
 
 alias rm='rm -i'
 alias cp='cp -i'
@@ -197,3 +193,5 @@ export NVM_DIR="$HOME/.nvm"
 export PROMPT_DIRTRIM=2
 export PS1="\$(parse_git_branch)\[$(tput sgr0)\]\u@ \[\e[32m\]\w\[\e[m\] % "
 # export PS1="\$(__git_ps1) \[$(tput sgr0)\]\u@ \[\e[32m\]\w\[\e[m\] % "
+. "/home/pedro/.deno/env"
+source /home/pedro/.local/share/bash-completion/completions/deno.bash
