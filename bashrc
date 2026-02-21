@@ -145,6 +145,7 @@ export EDITOR=VISUAL
 export ANDROID_HOME="/home/pedro/opt/android-sdk/"
 export PATH="$PATH:$ANDROID_HOME/cmdline-tools/latest/bin/"
 export PATH="$PATH:/home/pedro/opt/flutter/bin"
+export PATH="$PATH:/home/pedro/.config/composer/vendor/bin/"
 export CHROME_EXECUTABLE="/usr/bin/chromium"
 
 alias rm='rm -i'
@@ -157,6 +158,7 @@ alias md=mkdir
 alias g='git'
 alias gs='git status'
 alias gp='git push'
+alias pa='php artisan'
 
 # zsh like completion
 bind '"\e[A": history-search-backward'
@@ -193,5 +195,11 @@ export NVM_DIR="$HOME/.nvm"
 export PROMPT_DIRTRIM=2
 export PS1="\$(parse_git_branch)\[$(tput sgr0)\]\u@ \[\e[32m\]\w\[\e[m\] % "
 # export PS1="\$(__git_ps1) \[$(tput sgr0)\]\u@ \[\e[32m\]\w\[\e[m\] % "
+
 . "/home/pedro/.deno/env"
 source /home/pedro/.local/share/bash-completion/completions/deno.bash
+
+export QT_QPA_PLATFORM=xcb
+export PATH="$PATH:/home/pedro/opt/go/bin"
+export PATH="$PATH:/home/pedro/go/bin/"
+. "$HOME/.cargo/env"
