@@ -127,6 +127,7 @@ alias v="nvim"
 alias vim="nvim"
 alias del="gio trash"
 alias bashconfig="v ~/.bashrc"
+alias oc="opencode"
 alias ls='ls --color=auto'
 alias l='ls -lFh'
 alias la='ls -lAFh'
@@ -199,7 +200,13 @@ export PS1="\$(parse_git_branch)\[$(tput sgr0)\]\u@ \[\e[32m\]\w\[\e[m\] % "
 . "/home/pedro/.deno/env"
 source /home/pedro/.local/share/bash-completion/completions/deno.bash
 
+# bun
+export BUN_INSTALL="$HOME/.bun"
 export QT_QPA_PLATFORM=xcb
+export PATH="$BUN_INSTALL/bin:$PATH"
 export PATH="$PATH:/home/pedro/opt/go/bin"
 export PATH="$PATH:/home/pedro/go/bin/"
 . "$HOME/.cargo/env"
+
+export LEDGER_FILE="$HOME/Documentos/Financeiro/main.journal"
+alias hl=hledger
